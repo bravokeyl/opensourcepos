@@ -1,3 +1,4 @@
+This is a fork of [Jekkos OSPOS](https://github.com/jekkos/opensourcepos)
 Open Source Point of Sale is a web based point of sale system written in the PHP language. It uses MySQL as the data storage back-end and has a simple user interface.
 
 [![Build Status](https://travis-ci.org/jekkos/opensourcepos.svg?branch=master)](https://travis-ci.org/jekkos/opensourcepos)
@@ -18,9 +19,3 @@ password:pointofsale
 
 A more extensive setup guide can be found at [this site](http://www.opensourceposguide.com/guide/gettingstarted/installation)
 
-If you like the project, and you are making money out of it on a daily basis, then consider to buy me a coffee so I can keep adding features.
-
-
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MUN6AEG7NY6H8)
-
-Or send some coins to **19kwPpAwrUTxbNEs5D6cRR1k4mf5HNa4v2**
