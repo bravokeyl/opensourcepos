@@ -4,6 +4,7 @@
 	<meta charset="utf-8" />
 	<base href="<?php echo base_url();?>" />
 	<title><?php echo $this->config->item('company').' -- '.$this->lang->line('common_powered_by').' OS Point Of Sale' ?></title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="css/ospos.css"/>
 	<link rel="stylesheet" type="text/css" href="css/ospos_print.css" media="print" />
 	<?php if ($this->input->cookie('debug') == "true" || $this->input->get("debug") == "true") : ?>
@@ -56,39 +57,41 @@ html {
 
 </head>
 <body>
-<div id="menubar">
-	<div id="menubar_container">
-		<div id="menubar_company_info">
-		<span id="company_title"><?php echo $this->config->item('company'); ?></span><br />
-		<span style='font-size:8pt;'><?php echo $this->lang->line('common_powered_by').' Open Source Point Of Sale'; ?></span>
-	</div>
-
-		<div id="menubar_navigation">
-			<?php
-			foreach($allowed_modules->result() as $module)
-			{
-			?>
-			<div class="menu_item">
-				<a href="<?php echo site_url("$module->module_id");?>">
-				<img src="<?php echo base_url().'images/menubar/'.$module->module_id.'.png';?>" border="0" alt="Menubar Image"></a><br>
-				<a href="<?php echo site_url("$module->module_id");?>"><?php echo $this->lang->line("module_".$module->module_id) ?></a>
+<div class="header-wrap">
+	<nav id="menubar" class="navbar clearfix" >
+		<div class="container">
+			<div id="menubar_container">
+				<div id="menubar_company_info">
+				<span id="company_title"><?php echo $this->config->item('company'); ?></span><br />
+				<span style='font-size:8pt;'><?php echo $this->lang->line('common_powered_by').' Open Source Point Of Sale'; ?></span>
 			</div>
-			<?php
-			}
-			?>
+			<div id="menubar_navigation" class="nav navbar-right">
+				<?php
+				foreach($allowed_modules->result() as $module)
+				{
+				?>
+				<div class="menu_item">
+					<a href="<?php echo site_url("$module->module_id");?>">
+					<img src="<?php echo base_url().'images/menubar/'.$module->module_id.'.png';?>" border="0" alt="Menubar Image"></a><br>
+					<a href="<?php echo site_url("$module->module_id");?>"><?php echo $this->lang->line("module_".$module->module_id) ?></a>
+				</div>
+				<?php
+				}
+				?>
+			</div>
 		</div>
-		
-		<div id="menubar_footer">
-		    <?php echo $this->lang->line('common_welcome')." $user_info->first_name $user_info->last_name! | "; ?>
-		    <a href="javascript:logout(true);"><?php echo $this->lang->line("common_logout"); ?></a> 
+		<div class="header-info">
+			<div class="pull-left">
+			    <?php echo $this->lang->line('common_welcome')." $user_info->first_name $user_info->last_name! | "; ?>
+			    <a href="javascript:logout(true);"><?php echo $this->lang->line("common_logout"); ?></a> 
+			</div>
+			<div class="pull-right">
+			    <?php echo date('F d, Y h:i a') ?>
+			</div>
 		</div>
-		
-		<div id="menubar_date">
-		    <?php echo date('F d, Y h:i a') ?>
-		</div>
-
-	</div>
-</div>
-<div id="content_area_wrapper">
-<div id="content_area">
+	</nav>
+	<!-- Nav bar Close -->
+</div> <!-- Header Close -->
+<div id="content_area_wrapper" class="row">
+	<div id="content_area" class="container"> 
  

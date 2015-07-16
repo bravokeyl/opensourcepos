@@ -11,26 +11,26 @@ if(isset($error))
 
 
 
-<div id="register_wrapper">
+<div id="register_wrapper" class="col-md-10">
 	<?php echo form_open("receivings/change_mode",array('id'=>'mode_form')); ?>
 		<span><?php echo $this->lang->line('recvs_mode') ?></span>
 	<?php echo form_dropdown('mode',$modes,$mode,'onchange="$(\'#mode_form\').submit();"'); ?>
 	
-	<?php 
-	if ($show_stock_locations) 
-	{
-	?>
-    <span><?php echo $this->lang->line('recvs_stock_source') ?></span>
-    <?php echo form_dropdown('stock_source',$stock_locations,$stock_source,'onchange="$(\'#mode_form\').submit();"'); ?>
-    <?php 
-    if($mode=='requisition')
-    {
-    ?>
-    <span><?php echo $this->lang->line('recvs_stock_destination') ?></span>
-	<?php echo form_dropdown('stock_destination',$stock_locations,$stock_destination,'onchange="$(\'#mode_form\').submit();"');        
-    }
-	}
-	?>    
+	<?php if ($show_stock_locations) { ?>
+    		<span><?php echo $this->lang->line('recvs_stock_source') ?></span>
+    		<?php echo form_dropdown('stock_source',$stock_locations,$stock_source,'onchange="$(\'#mode_form\').submit();"'); ?>
+		    <?php if($mode=='requisition') { ?>
+		    		<span><?php echo $this->lang->line('recvs_stock_destination') ?></span>
+					<?php echo form_dropdown('stock_destination',$stock_locations,$stock_destination,'onchange="$(\'#mode_form\').submit();"');        
+		    	  } // end mode requisition check
+		} // end stock locations
+	?>  
+	<span>
+		Order Type
+		<?php 
+		$mode_vendors = array( 'factory'=>"Factory" , 'workorder'=>"Work Order");
+		echo form_dropdown('vendorform', $mode_vendors ,'factory','onchange=""'); ?>
+	</span>  
 	</form>
 	<?php echo form_open("receivings/add",array('id'=>'add_item_form')); ?>
 	<label id="item_label" for="item">
@@ -57,138 +57,122 @@ if(isset($error))
 </form>
 
 <!-- Receiving Items List -->
-
-<table id="register">
-<thead>
-<tr>
-	<th style="width:11%;"><?php echo $this->lang->line('common_delete'); ?></th>
-	<th style="width:30%;"><?php echo $this->lang->line('recvs_item_name'); ?></th>
-	<th style="width:11%;"><?php echo $this->lang->line('recvs_cost'); ?></th>
-	<th style="width:5%;"><?php echo $this->lang->line('recvs_quantity'); ?></th>
-	<th style="width:6%;"></th>
-	<th style="width:11%;"><?php echo $this->lang->line('recvs_discount'); ?></th>
-	<th style="width:15%;"><?php echo $this->lang->line('recvs_total'); ?></th>
-	<th style="width:11%;"><?php echo $this->lang->line('recvs_edit'); ?></th>
-</tr>
-</thead>
-<tbody id="cart_contents">
-<?php
-if(count($cart)==0)
-{
-?>
-<tr><td colspan='8'>
-<div class='warning_message' style='padding:7px;'><?php echo $this->lang->line('sales_no_items_in_cart'); ?></div>
-</tr></tr>
-<?php
-}
-else
-{
-	foreach(array_reverse($cart, true) as $line=>$item)
-	{
-        echo form_open("receivings/edit_item/$line");
-		
-?>
-	    <tr>
-	    <td><?php echo anchor("receivings/delete_item/$line",'['.$this->lang->line('common_delete').']');?></td>
-		<td style="align:center;"><?php echo $item['name']; ?><br /> [<?php echo $item['in_stock']; ?> in <?php echo $item['stock_name']; ?>]
-            <?php echo form_hidden('location', $item['item_location']); ?></td>
-
-		<?php if ($items_module_allowed && $mode !='requisition')
-		{
-		?>
-			<td><?php echo form_input(array('name'=>'price','value'=>$item['price'],'size'=>'6'));?></td>
-		<?php
-		}
-		else
-		{
-		?>
-			<td><?php echo $item['price']; ?></td>
-			<?php echo form_hidden('price',$item['price']); ?>
-		<?php
-		}
-		?>
-		
-		<td>
-		<?php
-            echo form_input(array('name'=>'quantity','value'=>$item['quantity'],'size'=>'2'));
-            if ($item['receiving_quantity'] > 1) 
-			{
-		?>
-		</td>
-        <td>x <?php echo $item['receiving_quantity']; ?></td>	
-		<?php 
-			}
-			else
-			{
-		?>
-		<td></td>
-		<?php 
-			}
-		?>
-		
-		<?php       
-			if ($items_module_allowed && $mode!='requisition')
-		    {
-		?>
-	    <td><?php echo form_input(array('name'=>'discount','value'=>$item['discount'],'size'=>'3'));?></td>
-		<?php
-		    }
-		    else
-		    {
-		?>
-		     <td><?php echo $item['discount']; ?></td>
-		     <?php echo form_hidden('discount',$item['discount']); ?>
-		<?php
-		    }
-		?>
-		<td><?php echo to_currency($item['price']*$item['quantity']-$item['price']*$item['quantity']*$item['discount']/100); ?></td>
-		<td><?php echo form_submit("edit_item", $this->lang->line('sales_edit_item'));?></td>
-		</tr>
+<div class="table-responsive">
+	<table id="register" class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th><?php echo $this->lang->line('common_delete'); ?></th>
+				<th><?php echo $this->lang->line('recvs_item_name'); ?></th>
+				<th><?php echo $this->lang->line('recvs_cost'); ?></th>
+				<th><?php echo $this->lang->line('recvs_quantity'); ?></th>
+				<th></th>
+				<th><?php echo $this->lang->line('recvs_discount'); ?></th>
+				<th><?php echo $this->lang->line('recvs_total'); ?></th>
+				<th>Vehicle No</th>
+				<th>Driver No</th>
+				<th>Project</th>
+				<th>Weight(Kgs)</th>
+				<th><?php echo $this->lang->line('recvs_edit'); ?></th>
+			</tr>
+		</thead>
+		<tbody id="cart_contents">
+		<?php if(count($cart)==0) { ?>
 		<tr>
-		<?php 
-			if($item['allow_alt_description']==1)
-			{
-			?>
-			<td style="color: #2F4F4F;"><?php echo $this->lang->line('sales_description_abbrv').':';?></td>
-			<?php 
-			} 
-			?>
-			<td colspan="2" style="text-align: left;">
-		
-			<?php
-	        	if($item['allow_alt_description']==1)
-	        	{
-	        		echo form_input(array('name'=>'description','value'=>$item['description'],'size'=>'20'));
-	        	}
-	        	else
-	        	{
-					if ($item['description']!='')
-					{
-						echo $item['description'];
-	        			echo form_hidden('description',$item['description']);
-	        		}
-	        		else
-	        		{
-	        		    echo $this->lang->line('sales_no_description');
-	           			echo form_hidden('description','');
-	        		}
-	        	}
-			?>
+			<td colspan="100%">
+				<div class='warning_message' style='padding:7px;'>
+				<?php echo $this->lang->line('sales_no_items_in_cart'); ?>
+				</div>
 			</td>
-			<td colspan="6"></td>
-		</tr>
-		</form>
-	<?php
-	}
-}
-?>
-</tbody>
-</table>
+		</tr> <!-- End no items Selected -->
+		<?php
+		} // no items in the cart
+		else {
+			foreach(array_reverse($cart, true) as $line=>$item) {
+		        echo form_open_multipart("receivings/edit_item/$line");
+		    ?>
+			    <tr>
+			    	<td>
+			    		<?php echo anchor("receivings/delete_item/$line",'['.$this->lang->line('common_delete').']');?>
+			    	</td>
+					<td>
+						<?php echo $item['name']; ?><br />[<?php echo $item['in_stock']; ?> in <?php echo $item['stock_name']; ?>]<?php echo form_hidden('location', $item['item_location']); ?>
+		            </td>
+					<?php 
+					if ($items_module_allowed && $mode !='requisition') { ?>
+						<td><?php echo form_input(array('name'=>'price','value'=>$item['price'],'size'=>'6'));?></td>
+					<?php } // end not requisition
+					else { ?>
+						<td><?php echo $item['price']; ?></td>
+						<?php echo form_hidden('price',$item['price']); ?>
+					<?php }  // end requistion ?>
+					<td>
+						<?php echo form_input(array('name'=>'quantity','value'=>$item['quantity'],'size'=>'2')); ?>
+					</td>
+					<?php if ($item['receiving_quantity'] > 1) { ?>
+		        	<td>x <?php echo $item['receiving_quantity']; ?></td>	
+					<?php } // end if rec.qty >1 
+				 	else { ?>
+					<td></td>
+					<?php } // end else rec.qty >1 ?>
+				
+					<?php       
+					if ($items_module_allowed && $mode!='requisition') { ?>
+			   			<td><?php echo form_input(array('name'=>'discount','value'=>$item['discount'],'size'=>'3'));?></td>
+					<?php }
+				    else { ?>
+					    <td><?php echo $item['discount']; ?></td>
+					    <?php echo form_hidden('discount',$item['discount']); 
+				    } // end else 
+				    ?>
+					<td>
+						<?php echo to_currency($item['price']*$item['quantity']-$item['price']*$item['quantity']*$item['discount']/100); ?>
+					</td>
+					<td>0123456789</td>
+					<td>0123456789</td>
+					<td>SmarttrakSolar</td>
+					<td>1000000</td>
+					<td><?php echo form_submit("edit_item", $this->lang->line('sales_edit_item'));?></td>
+				</tr>
+				<tr>
+					<?php  if($item['allow_alt_description']==1) { ?>
+					<td style="color: #2F4F4F;"><?php echo $this->lang->line('sales_description_abbrv').':';?></td>
+					<?php } ?>
+					<td colspan="3" style="text-align: left;">
+					<?php
+			        	if($item['allow_alt_description']==1) {
+			        		echo form_input(array('name'=>'description','value'=>$item['description'],'size'=>'20'));
+			        	}
+			        	else {
+							if ($item['description']!='') {
+								echo $item['description'];
+			        			echo form_hidden('description',$item['description']);
+			        		}
+			        		else {
+			        		    echo $this->lang->line('sales_no_description');
+			           			echo form_hidden('description','');
+			        		}
+			        	}
+					?>
+					</td>
+					<!-- <td colspan="6"></td> -->
+					<td colspan="2" class="text-center"><b>Date:</b></td>
+					<td colspan="2" class="text-left">2015-05-19  23:24:24</td>
+					<td colspan="1" class="text-left">Attachment</td>
+					<td colspan="3" class="text-left">Attachment</td>
+				</tr>
+				</form>
+			<?php
+			}
+		}
+		?>
+		</tbody>
+	</table>
+</div> <!-- End table responsive -->
 </div>
 
 <!-- Overall Receiving -->
 
-<div id="overall_sale">
+<div id="overall_sale" class="col-md-2">
 	<?php
 	if(isset($supplier))
 	{

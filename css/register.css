@@ -1,7 +1,6 @@
 #register_wrapper
 {
 	float:left;
-	width: 80%;
 	font-size:13px;
 }
 #mode_form
@@ -82,13 +81,9 @@
 #overall_sale
 {
 	float:left;
-	margin-left:4px;
 	background-color:#BBBBBB;
-	width: 18%;
 	max-width: 200px;
-	padding:5px;
 	font-size:13px;
-	
 }
 
 #sale_details
