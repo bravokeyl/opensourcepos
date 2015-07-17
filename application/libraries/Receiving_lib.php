@@ -204,7 +204,13 @@ class Receiving_lib
 			'in_stock'=>$this->CI->Item_quantities->get_item_quantity($item_id, $item_location)->quantity,
 			'price'=>$price,
 			'receiving_quantity'=>$receiving_quantity!=null ? $receiving_quantity : $item_info->receiving_quantity,
-			'total'=>$this->get_item_total($quantity, $price, $discount)
+			'total'=>$this->get_item_total($quantity, $price, $discount),
+			'vehicle_no' => null,
+			'driver_no' => null,
+			'project' => null,
+			'weight' => null,
+			'item_date' => date('m/d/Y H:i:s'),
+			'attachment' => 'None'
 			)
 		);
 
@@ -224,18 +230,24 @@ class Receiving_lib
 
 	}
 
-	function edit_item($line,$description,$serialnumber,$quantity,$discount,$price)
+	function edit_item($line,$post)
 	{
 		$items = $this->get_cart();
 		if(isset($items[$line]))
 		{
 			$line = &$items[$line];
-			$line['description'] = $description;
-			$line['serialnumber'] = $serialnumber;
-			$line['quantity'] = $quantity;
-			$line['discount'] = $discount;
-			$line['price'] = $price;
-			$line['total'] = $this->get_item_total($quantity, $price, $discount); 
+			$line['description'] = $post['description'];
+			$line['serialnumber'] = isset($post['serialnumber']) ? $post['serialnumber'] : null;
+			$line['quantity'] = $post['quantity'];
+			$line['discount'] = $post['discount'];
+			$line['price'] = $post['price'];
+			$line['vehicle_no'] = $post['vehicle_no'];
+			$line['driver_no'] = $post['driver_no'];
+			$line['item_date'] = $post['item_date'];
+			$line['attachment'] = 'None';//$post['attachment'];
+			$line['project'] = $post['project'];
+			$line['weight'] = $post['weight'];
+			$line['total'] = $this->get_item_total($post['quantity'], $post['price'], $post['discount']); 
 			$this->set_cart($items);
 		}
 

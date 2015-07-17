@@ -88,7 +88,12 @@ class Receiving extends CI_Model
 				'discount_percent'=>$item['discount'],
 				'item_cost_price' => $cur_item_info->cost_price,
 				'item_unit_price'=>$item['price'],
-				'item_location'=>$item['item_location']
+				'item_location'=>$item['item_location'],
+				'vehicle_no' => $item['vehicle_no'],
+				'driver_no' => $item['driver_no'],
+				'project'=> $item['project'],
+				'weight' => $item['weight'],
+				'item_date' => date('Y-m-d H:i:s', strtotime($item['item_date']))
 			);
 
 			$this->db->insert('receivings_items',$receivings_items_data);

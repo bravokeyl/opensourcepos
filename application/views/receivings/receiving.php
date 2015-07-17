@@ -68,10 +68,10 @@ if(isset($error))
 				<th></th>
 				<th><?php echo $this->lang->line('recvs_discount'); ?></th>
 				<th><?php echo $this->lang->line('recvs_total'); ?></th>
-				<th>Vehicle No</th>
-				<th>Driver No</th>
-				<th>Project</th>
-				<th>Weight(Kgs)</th>
+				<th><?php echo $this->lang->line('recvs_item_vehicle_no'); ?></th>
+				<th><?php echo $this->lang->line('recvs_item_driver_no'); ?></th>
+				<th><?php echo $this->lang->line('recvs_item_project'); ?></th>
+				<th><?php echo $this->lang->line('recvs_item_weight'); ?></th>
 				<th><?php echo $this->lang->line('recvs_edit'); ?></th>
 			</tr>
 		</thead>
@@ -127,10 +127,10 @@ if(isset($error))
 					<td>
 						<?php echo to_currency($item['price']*$item['quantity']-$item['price']*$item['quantity']*$item['discount']/100); ?>
 					</td>
-					<td>0123456789</td>
-					<td>0123456789</td>
-					<td>SmarttrakSolar</td>
-					<td>1000000</td>
+					<td><?php echo form_input(array('name'=>'vehicle_no','value'=>$item['vehicle_no'],'size'=>'8'));?></td>
+					<td><?php echo form_input(array('name'=>'driver_no','value'=>$item['driver_no'],'size'=>'8'));?></td>
+					<td><?php echo form_input(array('name'=>'project','value'=>$item['project'],'size'=>'8'));?></td>
+					<td><?php echo form_input(array('name'=>'weight','value'=>$item['weight'],'size'=>'8'));?></td>
 					<td><?php echo form_submit("edit_item", $this->lang->line('sales_edit_item'));?></td>
 				</tr>
 				<tr>
@@ -155,10 +155,10 @@ if(isset($error))
 					?>
 					</td>
 					<!-- <td colspan="6"></td> -->
-					<td colspan="2" class="text-center"><b>Date:</b></td>
-					<td colspan="2" class="text-left">2015-05-19  23:24:24</td>
-					<td colspan="1" class="text-left">Attachment</td>
-					<td colspan="3" class="text-left">Attachment</td>
+					<td colspan="2" class="text-center"><b><?php echo $this->lang->line('recvs_item_date');?>:</b></td>
+					<td colspan="2" class="text-left"><?php echo form_input(array('name'=>'item_date','value'=>$item['item_date'],'size'=>'15'));?></td>
+					<td colspan="1" class="text-left"><?php echo $this->lang->line('recvs_item_attachment');?></td>
+					<td colspan="3" class="text-left"><?php echo $item['attachment'];?></td>
 				</tr>
 				</form>
 			<?php
