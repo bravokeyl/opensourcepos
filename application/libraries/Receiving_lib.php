@@ -244,7 +244,6 @@ class Receiving_lib
 			$line['vehicle_no'] = $post['vehicle_no'];
 			$line['driver_no'] = $post['driver_no'];
 			$line['item_date'] = $post['item_date'];
-			$line['attachment'] = 'None';//$post['attachment'];
 			$line['project'] = $post['project'];
 			$line['weight'] = $post['weight'];
 			$line['total'] = $this->get_item_total($post['quantity'], $post['price'], $post['discount']); 
