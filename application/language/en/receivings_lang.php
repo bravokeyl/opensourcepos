@@ -54,4 +54,4 @@ $lang["recvs_item_driver_no"] = "Driver No";
 $lang["recvs_item_project"] = "Project";
 $lang["recvs_item_weight"] = "Weight (Kgs)";
 $lang["recvs_item_date"] = "Date";
-$lang["recvs_item_attachment"] = "Attachment";
+$lang["recvs_item_attachment"] = "Attachment(s)";

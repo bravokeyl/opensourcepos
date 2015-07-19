@@ -58,7 +58,8 @@
 	<input type="hidden" name="target" value="<?php echo $target;?>" />
 	<input type="hidden" name="upload_mode" value="multi" />
 	<div>
-		<input type="file" style="float: left" multiple name="files[]" id="files" />
+		<input type="file" style="float: left" multiple name="files[]" id="files"
+			accept="application/pdf,.csv,.xls,.xlsx application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
 		<?php
 
 		echo form_submit(array(
@@ -77,7 +78,7 @@
 </div>
 
 <script type="text/javascript">
-	$('form').submit(function (e) {
+	$('#uploader_form').submit(function (e) {
 		var files = $("#files").val();
 		if(files.trim().length === 0) {
 			e.preventDefault();
@@ -97,6 +98,10 @@
 			},
 			dataType: 'json',
 			success: function(response) {
+				if(!response || response.success === false) {
+					alert(response.responseText || 'Unable to delete attachment!');
+					return false;
+				}
 				me.parent().parent().fadeOut(100, function() {
 					$(this).remove();
 				});

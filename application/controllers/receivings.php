@@ -412,5 +412,19 @@ class Receivings extends Secure_area
     	echo json_encode(array('success'=>!$exists,'message'=>$this->lang->line('recvs_invoice_number_duplicate')));
     }
 
+    function delete_attachment($id = null) {
+    	$get = $this->input->get();
+    	$this->load->model('uploads');
+
+    	$out = array('success' => true);
+    	if(is_null($id))
+    		$out['success'] = false;
+    	else {
+	    	$this->uploads->destroy($id);
+	    	$this->receiving_lib->delete_attachment($get['item_id'], $id);
+    	}
+
+    	print json_encode($out);
+    }
 }
 ?>

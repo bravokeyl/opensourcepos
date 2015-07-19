@@ -93,7 +93,8 @@ class Receiving extends CI_Model
 				'driver_no' => $item['driver_no'],
 				'project'=> $item['project'],
 				'weight' => $item['weight'],
-				'item_date' => date('Y-m-d H:i:s', strtotime($item['item_date']))
+				'item_date' => date('Y-m-d H:i:s', strtotime($item['item_date'])),
+				'attachments' => implode(',', $item['attachment_ids'])
 			);
 
 			$this->db->insert('receivings_items',$receivings_items_data);

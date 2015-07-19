@@ -210,7 +210,7 @@ class Receiving_lib
 			'project' => null,
 			'weight' => null,
 			'item_date' => date('m/d/Y H:i:s'),
-			'attachment' => 'None'
+			'attachment_ids' => array()
 			)
 		);
 
@@ -383,6 +383,47 @@ class Receiving_lib
 		}
 		
 		return $total;
+	}
+
+	function get_item_attachments($line) {
+		$items = $this->get_cart();
+		if(isset($items[$line]))
+		{
+			$line = $items[$line];
+			return $line['attachment_ids'];
+		}
+
+		return false;
+	}
+
+	function update_item_attachments($line, $attachment_ids) {
+		$items = $this->get_cart();
+		if(isset($items[$line]))
+		{
+			$line = &$items[$line];
+			$line['attachment_ids'] = array_merge($line['attachment_ids'], $attachment_ids);
+			$this->set_cart($items);
+		}
+
+		return false;
+	}
+
+	function delete_attachment($line, $attachment_id) {
+		$items = $this->get_cart();
+		if(isset($items[$line]))
+		{
+			$line = &$items[$line];
+			$attachments = $line['attachment_ids'];
+
+			if(($key = array_search($attachment_id, $attachments)) !== false) {
+			    unset($attachments[$key]);
+			}
+
+			$line['attachment_ids'] = $attachments;
+			$this->set_cart($items);
+		}
+
+		return false;
 	}
 }
 ?>

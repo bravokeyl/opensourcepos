@@ -54,3 +54,4 @@ $lang["common_import_file_path"] = "file path";
 $lang["common_import_excel"] = "Excel Import";
 $lang["common_import_full_path"] = "Full path to excel file required";
 $lang["common_required"] = "Required";
+$lang["common_no_attachments"] = "There are no Attachments";

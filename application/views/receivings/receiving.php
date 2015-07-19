@@ -158,7 +158,12 @@ if(isset($error))
 					<td colspan="2" class="text-center"><b><?php echo $this->lang->line('recvs_item_date');?>:</b></td>
 					<td colspan="2" class="text-left"><?php echo form_input(array('name'=>'item_date','value'=>$item['item_date'],'size'=>'15'));?></td>
 					<td colspan="1" class="text-left"><?php echo $this->lang->line('recvs_item_attachment');?></td>
-					<td colspan="3" class="text-left"><?php echo $item['attachment'];?></td>
+					<td colspan="3" class="text-left">
+						<?php echo anchor("uploader/view/$line:receivings/width:500/height:350",
+						"<div class='small_button'><span>". count($item['attachment_ids']) . '&nbsp;'. $this->lang->line('recvs_item_attachment')."</span></div>",
+						array('class'=>'thickbox none','title'=>$this->lang->line('recvs_item_attachment')));
+						?>
+					</td>
 				</tr>
 				</form>
 			<?php
