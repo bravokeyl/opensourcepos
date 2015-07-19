@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 17, 2015 at 10:22 PM
+-- Generation Time: Jul 19, 2015 at 11:38 AM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.9
 
@@ -119,21 +119,6 @@ INSERT INTO `ospos_employees` (`username`, `password`, `person_id`, `deleted`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ospos_files`
---
-
-CREATE TABLE IF NOT EXISTS `ospos_files` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `type` varchar(45) DEFAULT NULL,
-  `size` varchar(45) DEFAULT NULL,
-  `filename` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `ospos_giftcards`
 --
 
@@ -210,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `ospos_inventory` (
   KEY `trans_items` (`trans_items`),
   KEY `trans_user` (`trans_user`),
   KEY `trans_location` (`trans_location`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=48 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=53 ;
 
 --
 -- Dumping data for table `ospos_inventory`
@@ -263,7 +248,12 @@ INSERT INTO `ospos_inventory` (`trans_id`, `trans_items`, `trans_user`, `trans_d
 (44, 2, 1, '2015-07-17 01:49:54', 'RECV 23', 1, 1),
 (45, 2, 1, '2015-07-17 02:08:13', 'RECV 24', 1, -1),
 (46, 1, 1, '2015-07-17 02:08:13', 'RECV 24', 1, -1),
-(47, 2, 1, '2015-07-17 02:09:09', 'RECV 25', 1, -1);
+(47, 2, 1, '2015-07-17 02:09:09', 'RECV 25', 1, -1),
+(48, 1, 1, '2015-07-18 06:30:32', 'RECV 26', 1, -1),
+(49, 1, 1, '2015-07-18 06:30:58', 'RECV 27', 1, -1),
+(50, 1, 1, '2015-07-18 06:31:35', 'RECV 28', 1, -1),
+(51, 1, 1, '2015-07-18 06:32:24', 'RECV 29', 1, -1),
+(52, 1, 1, '2015-07-18 15:20:44', 'RECV 30', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -369,7 +359,7 @@ CREATE TABLE IF NOT EXISTS `ospos_item_quantities` (
 --
 
 INSERT INTO `ospos_item_quantities` (`item_id`, `location_id`, `quantity`) VALUES
-(1, 1, 134),
+(1, 1, 131),
 (2, 1, 22);
 
 -- --------------------------------------------------------
@@ -497,7 +487,7 @@ CREATE TABLE IF NOT EXISTS `ospos_receivings` (
   UNIQUE KEY `invoice_number` (`invoice_number`),
   KEY `supplier_id` (`supplier_id`),
   KEY `employee_id` (`employee_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data for table `ospos_receivings`
@@ -528,7 +518,12 @@ INSERT INTO `ospos_receivings` (`receiving_time`, `supplier_id`, `employee_id`, 
 ('2015-07-17 13:48:43', NULL, 1, '', 22, 'Cash', NULL),
 ('2015-07-17 13:49:54', NULL, 1, '', 23, 'Cash', NULL),
 ('2015-07-17 14:08:13', NULL, 1, '', 24, 'Cash', NULL),
-('2015-07-17 14:09:09', NULL, 1, '', 25, 'Cash', NULL);
+('2015-07-17 14:09:09', NULL, 1, '', 25, 'Cash', NULL),
+('2015-07-18 18:30:32', NULL, 1, '', 26, 'Cash', NULL),
+('2015-07-18 18:30:58', NULL, 1, '', 27, 'Cash', NULL),
+('2015-07-18 18:31:35', NULL, 1, '', 28, 'Cash', NULL),
+('2015-07-18 18:32:24', NULL, 1, '', 29, 'Cash', NULL),
+('2015-07-19 03:20:44', NULL, 1, '', 30, 'Cash', NULL);
 
 -- --------------------------------------------------------
 
@@ -553,7 +548,7 @@ CREATE TABLE IF NOT EXISTS `ospos_receivings_items` (
   `project` varchar(45) DEFAULT NULL,
   `weight` varchar(45) DEFAULT NULL,
   `item_date` datetime DEFAULT NULL,
-  `attachment_id` int(11) DEFAULT NULL,
+  `attachments` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`receiving_id`,`item_id`,`line`),
   KEY `item_id` (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -562,12 +557,8 @@ CREATE TABLE IF NOT EXISTS `ospos_receivings_items` (
 -- Dumping data for table `ospos_receivings_items`
 --
 
-INSERT INTO `ospos_receivings_items` (`receiving_id`, `item_id`, `description`, `serialnumber`, `line`, `quantity_purchased`, `item_cost_price`, `item_unit_price`, `discount_percent`, `item_location`, `receiving_quantity`, `vehicle_no`, `driver_no`, `project`, `weight`, `item_date`, `attachment_id`) VALUES
-(23, 1, '', NULL, 1, 1.00, 800.00, 800.00, 0.00, 1, 0, '2222', '4444', '', '', NULL, NULL),
-(23, 2, '', NULL, 2, 1.00, 120.00, 120.00, 0.00, 1, 0, '1111', '3333', '', '', NULL, NULL),
-(24, 1, '', '', 2, -1.00, 800.00, 800.00, 0.00, 1, 0, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', NULL),
-(24, 2, '', '', 1, -1.00, 120.00, 120.00, 0.00, 1, 0, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', NULL),
-(25, 2, '', '', 1, -1.00, 120.00, 120.00, 0.00, 1, 0, NULL, NULL, NULL, NULL, '2015-07-17 10:09:06', NULL);
+INSERT INTO `ospos_receivings_items` (`receiving_id`, `item_id`, `description`, `serialnumber`, `line`, `quantity_purchased`, `item_cost_price`, `item_unit_price`, `discount_percent`, `item_location`, `receiving_quantity`, `vehicle_no`, `driver_no`, `project`, `weight`, `item_date`, `attachments`) VALUES
+(30, 1, '', NULL, 1, 1.00, 800.00, 800.00, 0.00, 1, 0, '1234', '5', '2', '500', '2015-07-18 22:55:12', '47,48,49');
 
 -- --------------------------------------------------------
 
@@ -734,7 +725,7 @@ CREATE TABLE IF NOT EXISTS `ospos_sessions` (
 --
 
 INSERT INTO `ospos_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('036243b2c8741c762ab3071714b0277b', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.125 Safari/537.36', 1437142251, 'a:8:{s:9:"user_data";s:0:"";s:9:"person_id";s:1:"1";s:13:"item_location";s:1:"1";s:9:"recv_mode";s:6:"return";s:17:"recv_stock_source";s:1:"1";s:8:"cartRecv";a:0:{}s:8:"supplier";i:-1;s:19:"recv_invoice_number";s:1:"0";}');
+('45ff645ee86f1580e9606d230ef3c787', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.125 Safari/537.36', 1437275966, 'a:8:{s:9:"user_data";s:0:"";s:9:"person_id";s:1:"1";s:13:"item_location";s:1:"1";s:9:"recv_mode";s:7:"receive";s:17:"recv_stock_source";s:1:"1";s:8:"cartRecv";a:0:{}s:8:"supplier";i:-1;s:19:"recv_invoice_number";s:1:"0";}');
 
 -- --------------------------------------------------------
 
@@ -770,6 +761,45 @@ CREATE TABLE IF NOT EXISTS `ospos_suppliers` (
   UNIQUE KEY `account_number` (`account_number`),
   KEY `person_id` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ospos_uploads`
+--
+
+CREATE TABLE IF NOT EXISTS `ospos_uploads` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `filename` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=52 ;
+
+--
+-- Dumping data for table `ospos_uploads`
+--
+
+INSERT INTO `ospos_uploads` (`id`, `name`, `type`, `filename`) VALUES
+(7, '1433796056_config-language.png', 'image/png', 'uploads/receivings/8f14e45fceea167a5a36dedd4bea2543'),
+(8, '1433796079_config-language.png', 'image/png', 'uploads/receivings/c9f0f895fb98ab9159f51fd0297e236d'),
+(9, 'Best of Pedigree-logo.png', 'image/png', 'uploads/receivings/45c48cce2e2d7fbdea1afc51c7c6ad26'),
+(10, 'Best of Pedigree-logo (1).png', 'image/png', 'uploads/receivings/d3d9446802a44259755d38e6d163e820'),
+(11, 'Best of Pedigree-logo (2).png', 'image/png', 'uploads/receivings/6512bd43d9caa6e02c990b0a82652dca'),
+(12, 'angularappmockups.zip', 'application/zip', 'uploads/receivings/c20ad4d76fe97759aa27a0c99bff6710'),
+(13, '11090331_1548145332072795_4254765418898933578_n.jpg', 'image/jpeg', 'uploads/receivings/c51ce410c124a10e0db5e4b97fc2af39'),
+(14, '1433796056_config-language.png', 'image/png', 'uploads/receivings/aab3238922bcc25a6f606eb525ffdc56'),
+(15, '1433796079_config-language.png', 'image/png', 'uploads/receivings/9bf31c7ff062936a96d3c8bd1f8f2ff3'),
+(16, 'Best of Pedigree-logo.png', 'image/png', 'uploads/receivings/c74d97b01eae257e44aa9d5bade97baf'),
+(17, 'Best of Pedigree-logo (1).png', 'image/png', 'uploads/receivings/70efdf2ec9b086079795c442636b55fb'),
+(18, 'Best of Pedigree-logo (2).png', 'image/png', 'uploads/receivings/6f4922f45568161a8cdf4ad2299f6d23'),
+(19, '1434399067_t9dog1_trans.png', 'image/png', 'uploads/receivings/1f0e3dad99908345f7439f8ffabdffc4'),
+(27, 'Best of Pedigree-logo (1).png', 'image/png', 'uploads/receivings/02e74f10e0327ad868d138f2b4fdd6f0'),
+(30, 'A5tqWj1434380233.png', 'image/png', 'uploads/receivings/34173cb38f07f89ddbebc2ac9128303f'),
+(38, '1433796079_config-language.png', 'image/png', 'uploads/receivings/a5771bce93e200c36f7cd9dfd0e5deaa'),
+(47, '1433796079_config-language.png', 'image/png', 'uploads/receivings/67c6a1e7ce56d3d6fa748ab6d9af3fd7'),
+(48, '1434399067_t9dog1_trans.png', 'image/png', 'uploads/receivings/642e92efb79421734881b53e1e1b18b6'),
+(49, 'A5tqWj1434380233.png', 'image/png', 'uploads/receivings/f457c545a9ded88f18ecee47145a72c0');
 
 --
 -- Constraints for dumped tables
