@@ -1,0 +1,55 @@
+
+<style type="text/css">
+	#TB_window {
+		bottom: 40% !important;
+	}
+	.submit_button {
+		position: absolute;
+		right: 4px;
+		top: 3px;
+	}
+
+	#attachments_wrapper .table-responsive {
+		margin-top: 15px !important;
+	}
+</style>
+
+<div id="attachments_wrapper">
+	<?php
+	echo form_open('uploader/upload', array('id' => 'uploader_form', 'enctype' => 'multipart/form-data'));
+	?>
+	<input type="file" multiple name="files[]" id="files" />
+	<input type="hidden" name="item_id" value="<?php echo $item_id;?>" />
+	<input type="hidden" name="target" value="<?php echo $target;?>" />
+	<input type="hidden" name="upload_mode" value="multi" />
+	<?php
+
+	echo form_submit(array(
+		'name'=>'submit',
+		'id'=>'submit',
+		'value'=>$this->lang->line('common_submit'),
+		'class'=>'submit_button float_right')
+	);
+
+	echo form_close();
+	?>
+	<div class="table-responsive">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Attachment</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$('form').submit(function (e) {
+		var files = $("#files").val();
+		if(files.trim().length === 0) {
+			e.preventDefault();
+			alert('You did not select a file!');
+		}
+	});
+</script>
