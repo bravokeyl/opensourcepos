@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 19, 2015 at 11:38 AM
+-- Generation Time: Jul 19, 2015 at 10:11 PM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.9
 
@@ -195,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `ospos_inventory` (
   KEY `trans_items` (`trans_items`),
   KEY `trans_user` (`trans_user`),
   KEY `trans_location` (`trans_location`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=53 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=61 ;
 
 --
 -- Dumping data for table `ospos_inventory`
@@ -253,7 +253,15 @@ INSERT INTO `ospos_inventory` (`trans_id`, `trans_items`, `trans_user`, `trans_d
 (49, 1, 1, '2015-07-18 06:30:58', 'RECV 27', 1, -1),
 (50, 1, 1, '2015-07-18 06:31:35', 'RECV 28', 1, -1),
 (51, 1, 1, '2015-07-18 06:32:24', 'RECV 29', 1, -1),
-(52, 1, 1, '2015-07-18 15:20:44', 'RECV 30', 1, 1);
+(52, 1, 1, '2015-07-18 15:20:44', 'RECV 30', 1, 1),
+(53, 1, 1, '2015-07-18 18:37:21', 'RECV 31', 1, 1),
+(54, 2, 1, '2015-07-18 18:37:21', 'RECV 31', 1, 1),
+(55, 2, 1, '2015-07-18 18:42:42', 'RECV 32', 1, 1),
+(56, 1, 1, '2015-07-18 18:42:42', 'RECV 32', 1, 2),
+(57, 1, 1, '2015-07-19 02:04:03', 'RECV 33', 1, 1),
+(58, 2, 1, '2015-07-19 02:04:03', 'RECV 33', 1, 2),
+(59, 1, 1, '2015-07-19 02:06:31', 'RECV 34', 1, 1),
+(60, 2, 1, '2015-07-19 02:06:31', 'RECV 34', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -359,8 +367,8 @@ CREATE TABLE IF NOT EXISTS `ospos_item_quantities` (
 --
 
 INSERT INTO `ospos_item_quantities` (`item_id`, `location_id`, `quantity`) VALUES
-(1, 1, 131),
-(2, 1, 22);
+(1, 1, 136),
+(2, 1, 28);
 
 -- --------------------------------------------------------
 
@@ -487,7 +495,7 @@ CREATE TABLE IF NOT EXISTS `ospos_receivings` (
   UNIQUE KEY `invoice_number` (`invoice_number`),
   KEY `supplier_id` (`supplier_id`),
   KEY `employee_id` (`employee_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
 
 --
 -- Dumping data for table `ospos_receivings`
@@ -523,7 +531,11 @@ INSERT INTO `ospos_receivings` (`receiving_time`, `supplier_id`, `employee_id`, 
 ('2015-07-18 18:30:58', NULL, 1, '', 27, 'Cash', NULL),
 ('2015-07-18 18:31:35', NULL, 1, '', 28, 'Cash', NULL),
 ('2015-07-18 18:32:24', NULL, 1, '', 29, 'Cash', NULL),
-('2015-07-19 03:20:44', NULL, 1, '', 30, 'Cash', NULL);
+('2015-07-19 03:20:44', NULL, 1, '', 30, 'Cash', NULL),
+('2015-07-19 06:37:21', NULL, 1, '', 31, 'Cash', NULL),
+('2015-07-19 06:42:42', NULL, 1, '', 32, 'Cash', NULL),
+('2015-07-19 14:04:03', NULL, 1, '', 33, 'Cash', NULL),
+('2015-07-19 14:06:31', NULL, 1, '', 34, 'Cash', NULL);
 
 -- --------------------------------------------------------
 
@@ -558,7 +570,12 @@ CREATE TABLE IF NOT EXISTS `ospos_receivings_items` (
 --
 
 INSERT INTO `ospos_receivings_items` (`receiving_id`, `item_id`, `description`, `serialnumber`, `line`, `quantity_purchased`, `item_cost_price`, `item_unit_price`, `discount_percent`, `item_location`, `receiving_quantity`, `vehicle_no`, `driver_no`, `project`, `weight`, `item_date`, `attachments`) VALUES
-(30, 1, '', NULL, 1, 1.00, 800.00, 800.00, 0.00, 1, 0, '1234', '5', '2', '500', '2015-07-18 22:55:12', '47,48,49');
+(32, 1, '', '', 2, 2.00, 800.00, 800.00, 0.00, 1, 0, NULL, NULL, NULL, NULL, '2015-07-19 02:40:31', '71,72,73'),
+(32, 2, '', '', 1, 1.00, 120.00, 120.00, 0.00, 1, 0, NULL, NULL, NULL, NULL, '2015-07-19 02:40:27', '77'),
+(33, 1, '', '', 1, 1.00, 800.00, 800.00, 0.00, 1, 0, NULL, NULL, NULL, NULL, '2015-07-19 10:03:47', ''),
+(33, 2, '', '', 2, 2.00, 120.00, 120.00, 0.00, 1, 0, NULL, NULL, NULL, NULL, '2015-07-19 10:03:51', ''),
+(34, 1, '', '', 1, 1.00, 800.00, 800.00, 0.00, 1, 0, NULL, NULL, NULL, NULL, '2015-07-19 10:03:47', '81,82,83,84'),
+(34, 2, '', '', 2, 2.00, 120.00, 120.00, 0.00, 1, 0, NULL, NULL, NULL, NULL, '2015-07-19 10:03:51', '79,80');
 
 -- --------------------------------------------------------
 
@@ -725,7 +742,7 @@ CREATE TABLE IF NOT EXISTS `ospos_sessions` (
 --
 
 INSERT INTO `ospos_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('45ff645ee86f1580e9606d230ef3c787', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.125 Safari/537.36', 1437275966, 'a:8:{s:9:"user_data";s:0:"";s:9:"person_id";s:1:"1";s:13:"item_location";s:1:"1";s:9:"recv_mode";s:7:"receive";s:17:"recv_stock_source";s:1:"1";s:8:"cartRecv";a:0:{}s:8:"supplier";i:-1;s:19:"recv_invoice_number";s:1:"0";}');
+('52b8d5253fb3c8218eab49848f3165d5', '127.0.0.1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.125 Safari/537.36', 1437314863, 'a:8:{s:9:"user_data";s:0:"";s:9:"person_id";s:1:"1";s:13:"item_location";s:1:"1";s:9:"recv_mode";s:7:"receive";s:17:"recv_stock_source";s:1:"1";s:8:"cartRecv";a:2:{i:1;a:21:{s:7:"item_id";s:1:"1";s:13:"item_location";s:1:"1";s:10:"stock_name";s:5:"stock";s:4:"line";i:1;s:4:"name";s:10:"Apple iMac";s:11:"description";s:0:"";s:12:"serialnumber";s:0:"";s:21:"allow_alt_description";s:1:"0";s:13:"is_serialized";s:1:"0";s:8:"quantity";i:1;s:8:"discount";i:0;s:8:"in_stock";s:3:"134";s:5:"price";s:6:"800.00";s:18:"receiving_quantity";s:1:"0";s:5:"total";s:9:"800.00000";s:10:"vehicle_no";N;s:9:"driver_no";N;s:7:"project";N;s:6:"weight";N;s:9:"item_date";s:19:"07/19/2015 10:03:47";s:14:"attachment_ids";a:4:{i:0;i:81;i:1;i:82;i:2;i:83;i:3;i:84;}}i:2;a:21:{s:7:"item_id";s:1:"2";s:13:"item_location";s:1:"1";s:10:"stock_name";s:5:"stock";s:4:"line";i:2;s:4:"name";s:11:"HP Pavilion";s:11:"description";s:0:"";s:12:"serialnumber";s:0:"";s:21:"allow_alt_description";s:1:"0";s:13:"is_serialized";s:1:"0";s:8:"quantity";i:2;s:8:"discount";i:0;s:8:"in_stock";s:2:"24";s:5:"price";s:6:"120.00";s:18:"receiving_quantity";s:1:"0";s:5:"total";s:9:"120.00000";s:10:"vehicle_no";N;s:9:"driver_no";N;s:7:"project";N;s:6:"weight";N;s:9:"item_date";s:19:"07/19/2015 10:03:51";s:14:"attachment_ids";a:4:{i:0;i:79;i:1;i:80;i:2;i:85;i:3;i:86;}}}s:8:"supplier";i:-1;s:19:"recv_invoice_number";s:1:"0";}');
 
 -- --------------------------------------------------------
 
@@ -773,33 +790,58 @@ CREATE TABLE IF NOT EXISTS `ospos_uploads` (
   `name` varchar(255) DEFAULT NULL,
   `type` varchar(45) DEFAULT NULL,
   `filename` text,
+  `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=87 ;
 
 --
 -- Dumping data for table `ospos_uploads`
 --
 
-INSERT INTO `ospos_uploads` (`id`, `name`, `type`, `filename`) VALUES
-(7, '1433796056_config-language.png', 'image/png', 'uploads/receivings/8f14e45fceea167a5a36dedd4bea2543'),
-(8, '1433796079_config-language.png', 'image/png', 'uploads/receivings/c9f0f895fb98ab9159f51fd0297e236d'),
-(9, 'Best of Pedigree-logo.png', 'image/png', 'uploads/receivings/45c48cce2e2d7fbdea1afc51c7c6ad26'),
-(10, 'Best of Pedigree-logo (1).png', 'image/png', 'uploads/receivings/d3d9446802a44259755d38e6d163e820'),
-(11, 'Best of Pedigree-logo (2).png', 'image/png', 'uploads/receivings/6512bd43d9caa6e02c990b0a82652dca'),
-(12, 'angularappmockups.zip', 'application/zip', 'uploads/receivings/c20ad4d76fe97759aa27a0c99bff6710'),
-(13, '11090331_1548145332072795_4254765418898933578_n.jpg', 'image/jpeg', 'uploads/receivings/c51ce410c124a10e0db5e4b97fc2af39'),
-(14, '1433796056_config-language.png', 'image/png', 'uploads/receivings/aab3238922bcc25a6f606eb525ffdc56'),
-(15, '1433796079_config-language.png', 'image/png', 'uploads/receivings/9bf31c7ff062936a96d3c8bd1f8f2ff3'),
-(16, 'Best of Pedigree-logo.png', 'image/png', 'uploads/receivings/c74d97b01eae257e44aa9d5bade97baf'),
-(17, 'Best of Pedigree-logo (1).png', 'image/png', 'uploads/receivings/70efdf2ec9b086079795c442636b55fb'),
-(18, 'Best of Pedigree-logo (2).png', 'image/png', 'uploads/receivings/6f4922f45568161a8cdf4ad2299f6d23'),
-(19, '1434399067_t9dog1_trans.png', 'image/png', 'uploads/receivings/1f0e3dad99908345f7439f8ffabdffc4'),
-(27, 'Best of Pedigree-logo (1).png', 'image/png', 'uploads/receivings/02e74f10e0327ad868d138f2b4fdd6f0'),
-(30, 'A5tqWj1434380233.png', 'image/png', 'uploads/receivings/34173cb38f07f89ddbebc2ac9128303f'),
-(38, '1433796079_config-language.png', 'image/png', 'uploads/receivings/a5771bce93e200c36f7cd9dfd0e5deaa'),
-(47, '1433796079_config-language.png', 'image/png', 'uploads/receivings/67c6a1e7ce56d3d6fa748ab6d9af3fd7'),
-(48, '1434399067_t9dog1_trans.png', 'image/png', 'uploads/receivings/642e92efb79421734881b53e1e1b18b6'),
-(49, 'A5tqWj1434380233.png', 'image/png', 'uploads/receivings/f457c545a9ded88f18ecee47145a72c0');
+INSERT INTO `ospos_uploads` (`id`, `name`, `type`, `filename`, `created_at`) VALUES
+(7, '1433796056_config-language.png', 'image/png', 'uploads/receivings/8f14e45fceea167a5a36dedd4bea2543', NULL),
+(8, '1433796079_config-language.png', 'image/png', 'uploads/receivings/c9f0f895fb98ab9159f51fd0297e236d', NULL),
+(9, 'Best of Pedigree-logo.png', 'image/png', 'uploads/receivings/45c48cce2e2d7fbdea1afc51c7c6ad26', NULL),
+(10, 'Best of Pedigree-logo (1).png', 'image/png', 'uploads/receivings/d3d9446802a44259755d38e6d163e820', NULL),
+(11, 'Best of Pedigree-logo (2).png', 'image/png', 'uploads/receivings/6512bd43d9caa6e02c990b0a82652dca', NULL),
+(12, 'angularappmockups.zip', 'application/zip', 'uploads/receivings/c20ad4d76fe97759aa27a0c99bff6710', NULL),
+(13, '11090331_1548145332072795_4254765418898933578_n.jpg', 'image/jpeg', 'uploads/receivings/c51ce410c124a10e0db5e4b97fc2af39', NULL),
+(14, '1433796056_config-language.png', 'image/png', 'uploads/receivings/aab3238922bcc25a6f606eb525ffdc56', NULL),
+(15, '1433796079_config-language.png', 'image/png', 'uploads/receivings/9bf31c7ff062936a96d3c8bd1f8f2ff3', NULL),
+(16, 'Best of Pedigree-logo.png', 'image/png', 'uploads/receivings/c74d97b01eae257e44aa9d5bade97baf', NULL),
+(17, 'Best of Pedigree-logo (1).png', 'image/png', 'uploads/receivings/70efdf2ec9b086079795c442636b55fb', NULL),
+(18, 'Best of Pedigree-logo (2).png', 'image/png', 'uploads/receivings/6f4922f45568161a8cdf4ad2299f6d23', NULL),
+(19, '1434399067_t9dog1_trans.png', 'image/png', 'uploads/receivings/1f0e3dad99908345f7439f8ffabdffc4', NULL),
+(27, 'Best of Pedigree-logo (1).png', 'image/png', 'uploads/receivings/02e74f10e0327ad868d138f2b4fdd6f0', NULL),
+(30, 'A5tqWj1434380233.png', 'image/png', 'uploads/receivings/34173cb38f07f89ddbebc2ac9128303f', NULL),
+(38, '1433796079_config-language.png', 'image/png', 'uploads/receivings/a5771bce93e200c36f7cd9dfd0e5deaa', NULL),
+(47, '1433796079_config-language.png', 'image/png', 'uploads/receivings/67c6a1e7ce56d3d6fa748ab6d9af3fd7', NULL),
+(48, '1434399067_t9dog1_trans.png', 'image/png', 'uploads/receivings/642e92efb79421734881b53e1e1b18b6', NULL),
+(49, 'A5tqWj1434380233.png', 'image/png', 'uploads/receivings/f457c545a9ded88f18ecee47145a72c0', NULL),
+(52, '1433796079_config-language.png', 'image/png', 'uploads/receivings/9a1158154dfa42caddbd0694a4e9bdc8', NULL),
+(53, '1434399067_t9dog1_trans.png', 'image/png', 'uploads/receivings/d82c8d1619ad8176d665453cfb2e55f0', NULL),
+(54, 'A5tqWj1434380233.png', 'image/png', 'uploads/receivings/a684eceee76fc522773286a895bc8436', NULL),
+(55, 'Access - John.txt', 'text/plain', 'uploads/receivings/b53b3a3d6ab90ce0268229151c9bde11', NULL),
+(61, '1433796056_config-language.png', 'image/png', 'uploads/receivings/7f39f8317fbdb1988ef4c628eba02591', NULL),
+(63, 'Best of Pedigree-logo.png', 'image/png', 'uploads/receivings/03afdbd66e7929b125f8597834fa83a4', NULL),
+(64, 'Best of Pedigree-logo (1).png', 'image/png', 'uploads/receivings/ea5d2f1c4608232e07d3aa3d998e5135', NULL),
+(66, '1433796056_config-language.png', 'image/png', 'uploads/receivings/3295c76acbf4caaed33c36b1b5fc2cb1', NULL),
+(67, '1433796079_config-language.png', 'image/png', 'uploads/receivings/735b90b4568125ed6c3f678819b6e058', NULL),
+(68, '1434399067_t9dog1_trans.png', 'image/png', 'uploads/receivings/a3f390d88e4c41f2747bfa2f1b5f87db', NULL),
+(69, '11090331_1548145332072795_4254765418898933578_n.jpg', 'image/jpeg', 'uploads/receivings/14bfa6bb14875e45bba028a21ed38046', NULL),
+(70, '1433796056_config-language.png', 'image/png', 'uploads/receivings/7cbbc409ec990f19c78c75bd1e06f215', NULL),
+(71, '11090331_1548145332072795_4254765418898933578_n.jpg', 'image/jpeg', 'uploads/receivings/e2c420d928d4bf8ce0ff2ec19b371514', NULL),
+(72, '1433796056_config-language.png', 'image/png', 'uploads/receivings/32bb90e8976aab5298d5da10fe66f21d', NULL),
+(73, '1433796079_config-language.png', 'image/png', 'uploads/receivings/d2ddea18f00665ce8623e36bd4e3c7c5', NULL),
+(77, 'Access - John.txt', 'text/plain', 'uploads/receivings/28dd2c7955ce926456240b2ff0100bde', NULL),
+(79, 'contacts (1).csv', 'text/csv', 'uploads/receivings/contacts (1).csv', '2015-07-19 10:05:22'),
+(80, 'contacts (2).csv', 'text/csv', 'uploads/receivings/contacts (2).csv', '2015-07-19 10:05:22'),
+(81, 'CV - Final.pdf', 'application/pdf', 'uploads/receivings/CV - Final.pdf', '2015-07-19 10:05:52'),
+(82, 'LEAVE APPLICATION FORM - Form No 004-Final.pdf', 'application/pdf', 'uploads/receivings/LEAVE APPLICATION FORM - Form No 004-Final.pdf', '2015-07-19 10:05:52'),
+(83, 'LEAVE APPLICATION FORM - Form No 004-Final (1).pdf', 'application/pdf', 'uploads/receivings/LEAVE APPLICATION FORM - Form No 004-Final (1).pdf', '2015-07-19 10:05:52'),
+(84, 'LEAVE APPLICATION FORM - Form No 004-Final (2).pdf', 'application/pdf', 'uploads/receivings/LEAVE APPLICATION FORM - Form No 004-Final (2).pdf', '2015-07-19 10:05:52'),
+(85, '647179contacts (1).csv', 'text/csv', 'uploads/receivings/647179contacts (1).csv', '2015-07-19 10:07:54'),
+(86, '17868contacts (2).csv', 'text/csv', 'uploads/receivings/17868contacts (2).csv', '2015-07-19 10:07:54');
 
 --
 -- Constraints for dumped tables

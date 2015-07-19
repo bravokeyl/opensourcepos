@@ -45,30 +45,26 @@ class Uploads extends CI_Model
 				'tmp_name' => $_FILES['files']['tmp_name'][$f],
 				'error' => $_FILES['files']['error'][$f]
 			);
+			$upload_dir = FCPATH . '/uploads/' . $this->subdir;
 
-
+			if(file_exists($upload_dir . '/' . $file['name'])) {
+				$file['name'] = rand(1000, 999999) . $file['name'];
+			}
 			$insert = array(
 				'name' => $file['name'],
-				'type' => $file['type']
+				'type' => $file['type'],
+				'filename' => 'uploads/' . $this->subdir . '/' . $file['name'],
+				'created_at' => date('Y-m-d H:i:s')
 			);
 
 			$this->db->insert($this->table, $insert);
 			$id = $this->db->insert_id();
-
-			$update = array(
-				'filename' => 'uploads/' . $this->subdir . '/' . md5($id)
-			);
-			$this->db->where('id' , $id)
-					->update($this->table, $update);
-
 			$ids[] = $id;
-
-			$upload_dir = FCPATH . '/uploads/' . $this->subdir;
 
 			if(!is_dir($upload_dir))
 				mkdir($upload_dir);
 
-			move_uploaded_file($file['tmp_name'], "$upload_dir/" . md5($id));
+			move_uploaded_file($file['tmp_name'], "$upload_dir/" . $file['name']);
 		}
 
 		return $ids;
