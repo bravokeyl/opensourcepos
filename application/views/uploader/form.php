@@ -1,4 +1,3 @@
-
 <style type="text/css">
 	#TB_window {
 		bottom: 40% !important;
@@ -59,7 +58,7 @@
 	<input type="hidden" name="upload_mode" value="multi" />
 	<div>
 		<input type="file" style="float: left" multiple name="files[]" id="files"
-			accept="application/pdf,.csv,.xls,.xlsx application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+			accept="application/pdf,.csv,.xls,.xlsx application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel , image/jpeg , image/png" />
 		<?php
 
 		echo form_submit(array(
