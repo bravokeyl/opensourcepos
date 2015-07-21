@@ -1,5 +1,10 @@
 <?php 
 
+$lang['recvs_dvendor']="Delivery Vendor";
+$lang['recvs_scrap']="Scrap";
+$lang['recvs_credit']="Credit Limit";
+$lang['recvs_price']="Price";
+$lang['recvs_vendor']="Vendor Name";
 $lang["receivings_transaction_failed"] = "Receivings Transactions Failed";
 $lang["recvs_basic_information"] = "Receiving information";
 $lang["recvs_cancel_receiving"] = "Cancel";

@@ -366,7 +366,20 @@ class Receivings extends Secure_area
 		$data['invoice_number']=$this->_substitute_invoice_number($suppl_info);
 		$data['invoice_number_enabled']=$this->receiving_lib->is_invoice_number_enabled();
 		$data['print_after_sale']=$this->receiving_lib->is_print_after_sale();
-		$this->load->view("receivings/receiving",$data);
+                if($this->input->post('type')!=null && $this->input->post('type')=='factory')
+                {
+                   echo $this->load->view("receivings/receivingajax",$data,true);
+                }
+                elseif ($this->input->post('type')!=null && $this->input->post('type')=='workorder')
+                {
+                   echo $this->load->view("receivings/receivingorder",$data,true);
+                }
+                
+                 else
+                {
+                    $this->load->view("receivings/receiving",$data);
+                }
+		
 		$this->_remove_duplicate_cookies();
 	}
 	
@@ -426,5 +439,7 @@ class Receivings extends Secure_area
 
     	print json_encode($out);
     }
+    
+    
 }
 ?>

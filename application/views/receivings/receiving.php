@@ -29,7 +29,7 @@ if(isset($error))
 		Order Type
 		<?php 
 		$mode_vendors = array( 'factory'=>"Factory" , 'workorder'=>"Work Order");
-		echo form_dropdown('vendorform', $mode_vendors ,'factory','onchange=""'); ?>
+		echo form_dropdown('vendorform', $mode_vendors ,'factory','onchange="orderType(this.value);"'); ?>
 	</span>  
 	</form>
 	<?php echo form_open("receivings/add",array('id'=>'add_item_form')); ?>
@@ -57,7 +57,7 @@ if(isset($error))
 </form>
 
 <!-- Receiving Items List -->
-<div class="table-responsive">
+<div class="table-responsive" id="registerFactWork">
 	<table id="register" class="table table-bordered table-striped">
 		<thead>
 			<tr>
@@ -463,6 +463,21 @@ function post_person_form_submit(response)
 		$("#select_supplier_form").submit();
 	}
 }
+ function orderType(val){
+     var url;
+     if(val=='factory')
+         url="<?php echo site_url("receivings");?>";
+     if(val=='workorder')
+        url="<?php echo site_url("receivings");?>";
+    $.ajax({
+        url:url,
+        type:'post',
+        data:{type:val},
+        success:function(html){
+            $('#registerFactWork').html(html);
+        }
+    });
 
+ }
 </script>
 <?php $this->load->view("partial/footer"); ?>
