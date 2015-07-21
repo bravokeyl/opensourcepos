@@ -249,7 +249,32 @@ class Items extends Secure_area implements iData_controller
 		$this->load->view("items/form",$data);
 	}
 
-    
+    function view1($item_id=-1)
+	{
+		$data['item_info']=$this->Item->get_info($item_id);
+		$data['item_tax_info']=$this->Item_taxes->get_info($item_id);
+		$suppliers = array('' => $this->lang->line('items_none'));
+		foreach($this->Supplier->get_all()->result_array() as $row)
+		{
+			$suppliers[$row['person_id']] = $row['company_name'];
+		}
+
+		$data['suppliers']=$suppliers;
+		$data['selected_supplier'] = $this->Item->get_info($item_id)->supplier_id;
+		$data['default_tax_1_rate']=($item_id==-1) ? $this->Appconfig->get('default_tax_1_rate') : '';
+		$data['default_tax_2_rate']=($item_id==-1) ? $this->Appconfig->get('default_tax_2_rate') : '';
+        
+        $locations_data = $this->Stock_locations->get_undeleted_all()->result_array();
+        foreach($locations_data as $location)
+        {
+           $quantity = $this->Item_quantities->get_item_quantity($item_id,$location['location_id'])->quantity;
+           $quantity = ($item_id == -1) ? null: $quantity;
+           $location_array[$location['location_id']] =  array('location_name'=>$location['location_name'],
+                                                                       'quantity'=>$quantity);
+           $data['stock_locations']= $location_array;
+        }
+		$this->load->view("items/form1",$data);
+	}
 	//Ramel Inventory Tracking
 	function inventory($item_id=-1)
 	{
@@ -427,6 +452,46 @@ class Items extends Secure_area implements iData_controller
 
 	}
 	
+        function save1($item_id=-1)
+	{
+		$upload_success = $this->_handle_image_upload();
+		$upload_data = $this->upload->data();
+        //Save item data
+		$item_data = array(
+		'item_name'=>$this->input->post('name'),
+		'description'=>$this->input->post('description'),
+		'category'=>$this->input->post('category'),
+		'supplier'=>$this->input->post('supplier_id')=='' ? null:$this->input->post('supplier_id'),
+		//'item_number'=>$this->input->post('item_number')=='' ? null:$this->input->post('item_number'),
+		'cost_price'=>$this->input->post('cost_price'),
+		'retail_price'=>$this->input->post('unit_price'),
+		'reorder'=>$this->input->post('reorder'),
+		'quantity_stock'=>$this->input->post('receiving_quantity'),
+		'allow_alt_description'=>$this->input->post('allow_alt_description'),
+		'serialized'=>$this->input->post('serialized'),
+		'deleted'=>$this->input->post('deleted'),  /** Parq 131215 **/
+//		'custom1'=>$this->input->post('custom1'),	/**GARRISON ADDED 4/21/2013**/			
+//		'custom2'=>$this->input->post('custom2'),/**GARRISON ADDED 4/21/2013**/
+//		'custom3'=>$this->input->post('custom3'),/**GARRISON ADDED 4/21/2013**/
+//		'custom4'=>$this->input->post('custom4'),/**GARRISON ADDED 4/21/2013**/
+//		'custom5'=>$this->input->post('custom5'),/**GARRISON ADDED 4/21/2013**/
+//		'custom6'=>$this->input->post('custom6'),/**GARRISON ADDED 4/21/2013**/
+//		'custom7'=>$this->input->post('custom7'),/**GARRISON ADDED 4/21/2013**/
+//		'custom8'=>$this->input->post('custom8'),/**GARRISON ADDED 4/21/2013**/
+//		'custom9'=>$this->input->post('custom9'),/**GARRISON ADDED 4/21/2013**/
+//		'custom10'=>$this->input->post('custom10'),/**GARRISON ADDED 4/21/2013**/
+                'vehicle_no'=>$this->input->post('vehicle_no'),
+                'driver_no'=>$this->input->post('driver_no'),
+                'vendor'=>$this->input->post('vendor'),
+                'scrap'=>$this->input->post('scrap'),
+                'item_date'=>date('m/d/Y H:i:s')
+
+		);
+		
+		$this->db->insert('ospos_workorder',$item_data);
+                echo json_encode(array('success'=>true));
+	}
+        
 	function check_item_number()
 	{
 		$exists = $this->Item->item_number_exists($this->input->post('item_number'),$this->input->post('item_id'));

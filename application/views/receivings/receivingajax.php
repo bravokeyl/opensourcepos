@@ -1,7 +1,6 @@
 
 
 <!-- Receiving Items List -->
-<script type="text/javascript" src="js/thickbox.js" language="javascript"></script>
 	<table id="register" class="table table-bordered table-striped">
 		<thead>
 			<tr>

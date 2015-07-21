@@ -29,7 +29,7 @@ if(isset($error))
 		Order Type
 		<?php 
 		$mode_vendors = array( 'factory'=>"Factory" , 'workorder'=>"Work Order");
-		echo form_dropdown('vendorform', $mode_vendors ,'factory','onchange="orderType(this.value);"'); ?>
+		echo form_dropdown('vendorform', $mode_vendors ,isset($workorder) && $workorder!='' ?$workorder:'factory','onchange="orderType(this.value);" id="vendorform"'); ?>
 	</span>  
 	</form>
 	<?php echo form_open("receivings/add",array('id'=>'add_item_form')); ?>
@@ -341,7 +341,30 @@ if(isset($error))
 
 <script type="text/javascript" language="javascript">
 $(document).ready(function()
-{
+{ var val1=$('#vendorform').val();
+    
+    if(val1=='factory'){
+         url1="<?php echo site_url("receivings");?>";
+         $('#new_item_button_register > a').attr('href',"<?=site_url('items/view/-1/width:450')?>");
+     }
+     if(val1=='workorder'){
+        url1="<?php echo site_url("receivings/workorder");?>";
+        $('#new_item_button_register > a').attr('href',"<?=site_url('items/view1/-1/width:450')?>");
+    }
+    $.ajax({
+        url:url1,
+        type:'post',
+        data:{type:val1},
+        success:function(html){
+            $('#registerFactWork').html(html);
+        }
+    });
+    
+    
+    
+    
+    
+    
     $("#item").autocomplete('<?php echo site_url("receivings/item_search"); ?>',
     {
     	minChars:0,
@@ -465,10 +488,14 @@ function post_person_form_submit(response)
 }
  function orderType(val){
      var url;
-     if(val=='factory')
+     if(val=='factory'){
          url="<?php echo site_url("receivings");?>";
-     if(val=='workorder')
-        url="<?php echo site_url("receivings");?>";
+         $('#new_item_button_register > a').attr('href',"<?=site_url('items/view/-1/width:450')?>");
+     }
+     if(val=='workorder'){
+        url="<?php echo site_url("receivings/workorder");?>";
+        $('#new_item_button_register > a').attr('href',"<?=site_url('items/view1/-1/width:450')?>");
+    }
     $.ajax({
         url:url,
         type:'post',

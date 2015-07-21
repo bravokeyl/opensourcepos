@@ -155,6 +155,12 @@ class Receivings extends Secure_area
 		$this->_reload();
 	}
 	
+        function delete_order($item_number)
+	{
+            $this->load->model('workorder');
+		$this->workorder->delete_order($item_number);
+		$this->_reload(array('workorder'=>'workorder'));
+	}
 	function delete($receiving_id = -1, $update_inventory=TRUE) 
 	{
 		$employee_id=$this->Employee->get_logged_in_employee_info()->person_id;
@@ -440,6 +446,12 @@ class Receivings extends Secure_area
     	print json_encode($out);
     }
     
-    
+   function workorder()
+   {
+       $this->load->model('workorder');
+      $data['workorder']= $this->workorder->getAllRecords();
+      $data['cart']=count($data);
+      echo $this->load->view("receivings/receivingorder",$data,true);
+   }
 }
 ?>
