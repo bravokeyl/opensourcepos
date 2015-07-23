@@ -20,7 +20,12 @@ class Receivings extends Secure_area
 		$suggestions = array_merge($suggestions, $this->Item_kit->get_item_kit_search_suggestions($this->input->post('q'),$this->input->post('limit')));
 		echo implode("\n",$suggestions);
 	}
-
+        function itemorder_search()
+                {
+                        $suggestions = $this->Item->get_itemorder_search_suggestions($this->input->post('q'),$this->input->post('limit'));
+                        $suggestions = array_merge($suggestions, $this->Item_kit->get_item_kit_search_suggestions($this->input->post('q'),$this->input->post('limit')));
+                        echo implode("\n",$suggestions);
+                }
 	function supplier_search()
 	{
 		$suggestions = $this->Supplier->get_suppliers_search_suggestions($this->input->post('q'),$this->input->post('limit'));
@@ -75,6 +80,49 @@ class Receivings extends Secure_area
 	
 	function add()
 	{
+               if($this->input->post("type")!=null){
+                   $item_id=$this->input->post("type");
+                   $item_id_or_number_or_item_kit_or_receipt=$item_id[0];
+                   $data=array();
+		   $person_info = $this->Employee->get_logged_in_employee_info();
+		$data['cart']=$this->receiving_lib->get_cart();
+		$data['modes']=array('receive'=>$this->lang->line('recvs_receiving'),'return'=>$this->lang->line('recvs_return'));
+		$data['mode']=$this->receiving_lib->get_mode();
+
+		$data['stock_locations']=$this->Stock_locations->get_allowed_locations('receivings');
+		$show_stock_locations = count($data['stock_locations']) > 1;
+        if ($show_stock_locations) 
+        {
+        	$data['modes']['requisition']=$this->lang->line('recvs_requisition');
+	        $data['stock_source']=$this->receiving_lib->get_stock_source();
+        	$data['stock_destination']=$this->receiving_lib->get_stock_destination();
+        }    
+        $data['show_stock_locations']=$show_stock_locations;
+        
+		$data['total']=$this->receiving_lib->get_total();
+		$data['items_module_allowed']=$this->Employee->has_grant('items',$person_info->person_id);
+		$data['comment']=$this->receiving_lib->get_comment();
+		$data['payment_options']=array(
+			$this->lang->line('sales_cash') => $this->lang->line('sales_cash'),
+			$this->lang->line('sales_check') => $this->lang->line('sales_check'),
+			$this->lang->line('sales_debit') => $this->lang->line('sales_debit'),
+			$this->lang->line('sales_credit') => $this->lang->line('sales_credit')
+		);
+		
+		$supplier_id=$this->receiving_lib->get_supplier();
+		$suppl_info='';
+		if($supplier_id!=-1)
+		{
+			$suppl_info=$this->Supplier->get_info($supplier_id);
+			$data['supplier']=$suppl_info->company_name;  // first_name.' '.$info->last_name;
+		}
+		$data['invoice_number']=$this->_substitute_invoice_number($suppl_info);
+		$data['invoice_number_enabled']=$this->receiving_lib->is_invoice_number_enabled();
+		$data['print_after_sale']=$this->receiving_lib->is_print_after_sale();
+                   echo $this->load->view("receivings/receivingajax",$data,true);
+                   return;
+                
+               }
 		$data=array();
 		$mode = $this->receiving_lib->get_mode();
 		$item_id_or_number_or_item_kit_or_receipt = $this->input->post("item");
@@ -375,6 +423,7 @@ class Receivings extends Secure_area
                 if($this->input->post('type')!=null && $this->input->post('type')=='factory')
                 {
                    echo $this->load->view("receivings/receivingajax",$data,true);
+                   return;
                 }
                 elseif ($this->input->post('type')!=null && $this->input->post('type')=='workorder')
                 {
@@ -450,6 +499,16 @@ class Receivings extends Secure_area
    {
        $this->load->model('workorder');
       $data['workorder']= $this->workorder->getAllRecords();
+      $data['cart']=count($data);
+      echo $this->load->view("receivings/receivingorder",$data,true);
+   }
+   
+   function ajaxworkorder()
+   {
+       $item_id=$this->input->post("type");
+       $item_id_or_number_or_item_kit_or_receipt=$item_id[0];
+       $this->load->model('workorder');
+      $data['workorder']= $this->workorder->getRecords($item_id_or_number_or_item_kit_or_receipt);
       $data['cart']=count($data);
       echo $this->load->view("receivings/receivingorder",$data,true);
    }

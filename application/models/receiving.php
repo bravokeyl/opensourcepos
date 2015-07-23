@@ -216,6 +216,21 @@ class Receiving extends CI_Model
 		return ($query->num_rows()==1);
 	}
 	
+        
+        public function create_receivings_items_temp_search_table($id)
+	{
+		return $this->db->query("
+		(SELECT date(receiving_time) as receiving_date, ".$this->db->dbprefix('receivings_items').".receiving_id, comment, item_location, invoice_number, payment_type, employee_id,
+		".$this->db->dbprefix('items').".item_id, ".$this->db->dbprefix('receivings').".supplier_id, quantity_purchased, ".$this->db->dbprefix('receivings_items').".receiving_quantity,
+		item_cost_price, item_unit_price, discount_percent, (item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) as subtotal,
+		".$this->db->dbprefix('receivings_items').".line as line, serialnumber, ".$this->db->dbprefix('receivings_items').".description as description,
+		(item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) as total,
+		(item_unit_price*quantity_purchased-item_unit_price*quantity_purchased*discount_percent/100) - (item_cost_price*quantity_purchased) as profit
+		FROM ".$this->db->dbprefix('receivings_items')."
+		INNER JOIN ".$this->db->dbprefix('receivings')." ON  ".$this->db->dbprefix('receivings_items').'.receiving_id='.$this->db->dbprefix('receivings').'.receiving_id'."
+		INNER JOIN ".$this->db->dbprefix('items')." ON  ".$this->db->dbprefix('receivings_items').'.item_id='.$this->db->dbprefix('items').'.item_id'."
+		where ".$this->db->dbprefix('items').".item_id=".$id." GROUP BY receiving_id, item_id, line)")->result_array();
+	}
 	//We create a temp table that allows us to do easy report/receiving queries
 	public function create_receivings_items_temp_table()
 	{

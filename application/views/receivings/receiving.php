@@ -47,6 +47,7 @@ if(isset($error))
 	?>
 	</label>
 <?php echo form_input(array('name'=>'item','id'=>'item','size'=>'40'));?>
+        <?php echo form_hidden('itemorder',site_url("receivings/item_search"));?>
 <div id="new_item_button_register" >
 		<?php echo anchor("items/view/-1/width:450",
 		"<div class='small_button'><span>".$this->lang->line('sales_new_item')."</span></div>",
@@ -346,10 +347,12 @@ $(document).ready(function()
     if(val1=='factory'){
          url1="<?php echo site_url("receivings");?>";
          $('#new_item_button_register > a').attr('href',"<?=site_url('items/view/-1/width:450')?>");
+       $('input[name="itemorder"]').val("<?=site_url('receivings/item_search')?>");
      }
      if(val1=='workorder'){
         url1="<?php echo site_url("receivings/workorder");?>";
         $('#new_item_button_register > a').attr('href',"<?=site_url('items/view1/-1/width:450')?>");
+        $('input[name="itemorder"]').val("<?=site_url('receivings/itemorder_search')?>");
     }
     $.ajax({
         url:url1,
@@ -362,23 +365,49 @@ $(document).ready(function()
     
     
     
-    
-    
-    
-    $("#item").autocomplete('<?php echo site_url("receivings/item_search"); ?>',
+   $("#item").keyup(function(){
+       
+   
+    $("#item").autocomplete($('input[name="itemorder"]').val(),
     {
     	minChars:0,
     	max:100,
        	delay:10,
        	selectFirst: false,
     	formatItem: function(row) {
+            
 			return row[1];
 		}
     });
-
+ });
     $("#item").result(function(event, data, formatted)
-    {
-		$("#add_item_form").submit();
+    {          // alert(data)
+         var val1=$('#vendorform').val();
+    
+    if(val1=='factory'){
+         url1="<?php echo site_url("receivings/add");?>";
+      
+     }
+     if(val1=='workorder'){
+        url1="<?php echo site_url("receivings/ajaxworkorder");?>";
+       
+    }
+    $.ajax({
+        url:url1,
+        type:'post',
+        data:{type:data},
+        success:function(html){
+           
+            $('#registerFactWork').html(html);
+            
+        }
+    });
+    
+       
+        
+        
+        
+		//$("#add_item_form").submit();
     });
 
     $('#item').focus();
@@ -491,10 +520,14 @@ function post_person_form_submit(response)
      if(val=='factory'){
          url="<?php echo site_url("receivings");?>";
          $('#new_item_button_register > a').attr('href',"<?=site_url('items/view/-1/width:450')?>");
+          $('input[name="itemorder"]').val("<?=site_url('receivings/item_search')?>");
+       //  $('input[name=item]').attr('id','item');
      }
      if(val=='workorder'){
         url="<?php echo site_url("receivings/workorder");?>";
         $('#new_item_button_register > a').attr('href',"<?=site_url('items/view1/-1/width:450')?>");
+         $('input[name="itemorder"]').val("<?=site_url('receivings/itemorder_search')?>");
+       // $('input[name=item]').attr('id','order');
     }
     $.ajax({
         url:url,

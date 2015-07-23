@@ -360,6 +360,77 @@ class Item extends CI_Model
 		return $suggestions;
 	}
 
+        function get_itemorder_search_suggestions($search,$limit=25)
+	{
+		$suggestions = array();
+
+		$this->db->from('workorder');
+		$this->db->where('deleted',1);
+		$this->db->like('item_name', $search);
+		$this->db->order_by("item_name", "asc");
+		$by_name = $this->db->get();
+		foreach($by_name->result() as $row)
+		{
+			$suggestions[]=$row->id.'|'.$row->item_name;
+		}
+
+//		$this->db->from('workorder');
+//		$this->db->where('deleted',1);
+//		$this->db->like('item_number', $search);
+//		$this->db->order_by("item_number", "asc");
+//		$by_item_number = $this->db->get();
+//		foreach($by_item_number->result() as $row)
+//		{
+//			$suggestions[]=$row->item_id.'|'.$row->item_number;
+//		}
+/** GARRISON ADDED 4/21/2013 **/
+	//Search by description
+		$this->db->from('workorder');
+		$this->db->where('deleted',1);
+		$this->db->like('description', $search);
+		$this->db->order_by("description", "asc");
+		$by_description = $this->db->get();
+		foreach($by_description->result() as $row)
+		{
+			$entry=$row->id.'|'.$row->item_name;
+			if (!in_array($entry, $suggestions))
+			{
+				$suggestions[]=$entry;
+			}
+
+		}
+               // echo $this->db->last_query();
+/** END GARRISON ADDED **/
+		/** GARRISON ADDED 4/22/2013 **/
+	//Search by custom fields
+/* 		$this->db->from('items');
+		$this->db->where('deleted',0);
+		$this->db->like('custom1', $search);
+		$this->db->or_like('custom2', $search);
+		$this->db->or_like('custom3', $search);
+		$this->db->or_like('custom4', $search);
+		$this->db->or_like('custom5', $search);
+		$this->db->or_like('custom6', $search);
+		$this->db->or_like('custom7', $search);
+		$this->db->or_like('custom8', $search);
+		$this->db->or_like('custom9', $search);
+		$this->db->or_like('custom10', $search);
+		$this->db->order_by("name", "asc");
+		$by_description = $this->db->get();
+		foreach($by_description->result() as $row)
+		{
+			$suggestions[]=$row->item_id.'|'.$row->name;
+		} */
+		/** END GARRISON ADDED **/
+
+		//only return $limit suggestions
+		if(count($suggestions > $limit))
+		{
+			$suggestions = array_slice($suggestions, 0,$limit);
+		}
+		return $suggestions;
+	}
+        
 	function get_category_suggestions($search)
 	{
 		$suggestions = array();
